@@ -1,6 +1,9 @@
 # Getting Started with Create React App
 
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## <div style="color:green" >For states management, recommend Redux;</div>
 
 ## Available Scripts
 
