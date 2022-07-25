@@ -6,12 +6,13 @@
 import style from './index.module.scss';
 import { Content } from 'antd/es/layout/layout';
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 const MenuContent:React.FC=()=>{
 
   return (
     <Content className={style.main}>
-      内容区
+     <Outlet/>
     </Content>
   );
 }
