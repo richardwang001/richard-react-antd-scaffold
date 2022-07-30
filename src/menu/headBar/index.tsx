@@ -17,7 +17,7 @@ const HeadBar:React.FC=()=>{
   const dispatch = useDispatch();
 
   return (
-    <Header className={style.siteLayoutBackground}>
+    <Header className={style.headerLayout}>
       {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
         className: style.trigger,
         onClick: () => dispatch(setSideCollapsed(!collapsed)),

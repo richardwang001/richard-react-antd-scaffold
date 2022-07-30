@@ -7,25 +7,47 @@ import style from './index.module.scss';
 import { Content } from 'antd/es/layout/layout';
 import React from 'react';
 import { Tabs } from 'antd';
-import { pane1, panes } from './contentModel';
+import { TabActionEnum } from './contentModel';
 import { useDispatch, useSelector } from 'react-redux';
 import { removePane } from '../menuSlice';
 import { RootState } from '../../redux/store';
-const {TabPane} = Tabs;
-const MenuContent:React.FC=()=>{
+import { useNavigate } from 'react-router-dom';
+import { getNewActiveKeyAfterRemoving } from '../../core/utils/panesTools';
+
+const { TabPane } = Tabs;
+const MenuContent: React.FC = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const menuState = useSelector((state: RootState) => state.menu);
+  const panes = menuState.panes;
+  const activeKey = menuState.activeKey;
+
+  const onTabChange = (key: string) => {
+    navigate(key);
+  };
+
+  const onEditTab = (targetKey: any, action: string) => {
+    if (action === TabActionEnum.REMOVE) {
+      dispatch(removePane(targetKey));
+      const path = getNewActiveKeyAfterRemoving(panes, targetKey,activeKey);
+      // console.log("path: " + path);
+      path && navigate(path, { replace: true });
+    }
+  };
+
   return (
     <Content className={style.main}>
       <Tabs
         hideAdd
         type="editable-card"
         tabBarGutter={0}
-        onEdit={()=>dispatch(removePane(pane1))}
+        activeKey={activeKey}
+        onEdit={onEditTab}
+        onChange={onTabChange}
       >
         {
-          menuState.panes.map(pane => (
-            <TabPane tab={pane.title} key={pane.key} forceRender>
+          panes.map(pane => (
+            <TabPane closable={panes.length > 1} tab={pane.title} key={pane.key} forceRender>
               {pane.component}
             </TabPane>
           ))
@@ -33,6 +55,6 @@ const MenuContent:React.FC=()=>{
       </Tabs>
     </Content>
   );
-}
+};
 
 export default MenuContent;

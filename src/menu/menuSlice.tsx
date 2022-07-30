@@ -3,20 +3,20 @@
  *@author Richard Wang
  *@date 2022/7/25 13:36
  */
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
-import { PagePathEnum, pane1, pane2, PaneType } from './menuContent/contentModel';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { PagePathEnum, allPanes, PaneType } from './menuContent/contentModel';
 
 interface MenuState {
   sideCollapsed:boolean,
   panes:PaneType[],
-  activeKey:string
+  activeKey:PagePathEnum
 }
 
 const initialState: MenuState = {
   sideCollapsed:true,
   activeKey:PagePathEnum.P1,
-  panes:[pane1,pane2]
+  panes:allPanes
 }
 
 export const menuSlice = createSlice({
@@ -29,21 +29,19 @@ export const menuSlice = createSlice({
     setActiveKey:(state, action: PayloadAction<PagePathEnum>) =>{
       state.activeKey = action.payload;
     },
+    setPanes:(state, action: PayloadAction<PaneType[]>)=>{
+      state.panes = action.payload;
+    },
     addPane:(state, action: PayloadAction<PaneType>) =>{
       const hasSome = state.panes.some(pane => pane.key === action.payload.key);
       if (!hasSome) {state.panes.push(action.payload);}
     },
-    removePane:(state,action: PayloadAction<PaneType>)=>{
-      const targetKey = action.payload.key;
-      const targetIndex = state.panes.findIndex((pane) => pane.key === targetKey);
-      state.panes.splice(targetIndex,1);
-      // if (newPanes.length && targetKey === activeKey) {
-      //   const { key } = newPanes[targetIndex === newPanes.length ? targetIndex - 1 : targetIndex];
-      //   setActiveKey(key);
-      // }
+    removePane:(state,action: PayloadAction<PagePathEnum>)=>{
+      const targetKey = action.payload;
+      state.panes=state.panes.filter(pane => pane.key !== targetKey);
     }
   }
 });
 
-export const {setSideCollapsed,removePane} = menuSlice.actions;
+export const {setSideCollapsed,removePane,setActiveKey,addPane,setPanes} = menuSlice.actions;
 export default menuSlice.reducer;

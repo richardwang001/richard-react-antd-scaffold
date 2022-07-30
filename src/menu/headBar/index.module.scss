@@ -10,7 +10,12 @@
   color: #1890ff;
 }
 
-.siteLayoutBackground {
+.headerLayout {
+  display:flex;
   padding: 0;
   background: #fff;
+  height:50px;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
 }
