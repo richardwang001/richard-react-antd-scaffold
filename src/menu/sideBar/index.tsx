@@ -3,37 +3,26 @@
  *@author Richard Wang
  *@date 2022/7/25 12:20
  */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Menu, MenuProps, Space } from 'antd';
-import {
-  AntDesignOutlined,
-  RadarChartOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined
-} from '@ant-design/icons';
+import { AntDesignOutlined} from '@ant-design/icons';
 import Sider from 'antd/es/layout/Sider';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { PagePathEnum, PaneTitleEnum } from '../menuContent/contentModel';
-import { useNavigate } from 'react-router-dom';
+import { sideMenuItems, PagePathEnum, MenuClickEventProp } from '../menuConfig';
 import style from './index.module.scss';
-import { getPaneByKey } from '../../core/utils/panesTools';
-import { addPane } from '../menuSlice';
+import { setOpenKeys } from '../menuSlice';
 
-const SideBar: React.FC = () => {
-  const navigate = useNavigate();
+const SideBar: React.FC<MenuClickEventProp> = ({onMenuClick}) => {
   const dispatch = useDispatch();
   const menuSate = useSelector((state: RootState) => state.menu);
   const collapsed = menuSate.sideCollapsed;
   const activeKey = menuSate.activeKey;
+  const openKeys=menuSate.openKeys;
 
-  const onMenuClick: MenuProps['onClick'] = ({ key }) => {
-    navigate(key);
-    const findPane = getPaneByKey(key as PagePathEnum);
-    findPane && dispatch(addPane(findPane));
-  };
-
+  const onOpenChange: MenuProps['onOpenChange'] = keys => {
+    dispatch(setOpenKeys(keys as PagePathEnum[]));
+  }
   return (
     <Sider collapsedWidth={50} trigger={null} collapsible collapsed={collapsed}>
       <Space size="small" direction="horizontal" className={style.mainTitleSpace}>
@@ -44,30 +33,11 @@ const SideBar: React.FC = () => {
       <Menu
         theme="dark"
         mode="inline"
+        items={sideMenuItems}
         selectedKeys={[activeKey]}
         onClick={onMenuClick}
-        items={[
-          {
-            key: PagePathEnum.P1,
-            icon: <UserOutlined/>,
-            label: PaneTitleEnum.P1,
-          },
-          {
-            key: PagePathEnum.P2,
-            icon: <VideoCameraOutlined/>,
-            label: PaneTitleEnum.P2,
-          },
-          {
-            key: PagePathEnum.P3,
-            icon: <UploadOutlined/>,
-            label: PaneTitleEnum.P3,
-          },
-          {
-            key: PagePathEnum.P4,
-            icon: <RadarChartOutlined/>,
-            label: PaneTitleEnum.P4,
-          },
-        ]}
+        openKeys={openKeys}
+        onOpenChange={onOpenChange}
       />
     </Sider>
   );

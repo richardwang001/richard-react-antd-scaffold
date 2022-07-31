@@ -7,11 +7,11 @@ import style from './index.module.scss';
 import { Content } from 'antd/es/layout/layout';
 import React from 'react';
 import { Tabs } from 'antd';
-import { TabActionEnum } from './contentModel';
+import { PaneType, TabActionEnum } from '../menuConfig';
 import { useDispatch, useSelector } from 'react-redux';
 import { removePane } from '../menuSlice';
 import { RootState } from '../../redux/store';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { getNewActiveKeyAfterRemoving } from '../../core/utils/panesTools';
 
 const { TabPane } = Tabs;
@@ -19,7 +19,7 @@ const MenuContent: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const menuState = useSelector((state: RootState) => state.menu);
-  const panes = menuState.panes;
+  const panes: PaneType[] = menuState.panes;
   const activeKey = menuState.activeKey;
 
   const onTabChange = (key: string) => {
@@ -29,8 +29,7 @@ const MenuContent: React.FC = () => {
   const onEditTab = (targetKey: any, action: string) => {
     if (action === TabActionEnum.REMOVE) {
       dispatch(removePane(targetKey));
-      const path = getNewActiveKeyAfterRemoving(panes, targetKey,activeKey);
-      // console.log("path: " + path);
+      const path = getNewActiveKeyAfterRemoving(panes, targetKey, activeKey);
       path && navigate(path, { replace: true });
     }
   };
@@ -46,13 +45,13 @@ const MenuContent: React.FC = () => {
         onChange={onTabChange}
       >
         {
-          panes.map(pane => (
-            <TabPane closable={panes.length > 1} tab={pane.title} key={pane.key} forceRender>
-              {pane.component}
-            </TabPane>
-          ))
+          panes.map(p =>(
+            <TabPane closable={panes.length > 1} tab={p.label} key={p.key} forceRender/>
+            )
+          )
         }
       </Tabs>
+      <Outlet/>
     </Content>
   );
 };

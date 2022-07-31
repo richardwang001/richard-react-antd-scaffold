@@ -19,3 +19,21 @@
   align-content: center;
   align-items: center;
 }
+
+.headMenu {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: -webkit-fill-available;
+
+  :global{
+    .ant-menu-item-selected{
+      height:57px;
+    }
+    .ant-menu-item:hover{
+      height:57px;
+    }
+
+  }
+}

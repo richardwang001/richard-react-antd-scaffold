@@ -10,8 +10,10 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { setSideCollapsed } from '../menuSlice';
+import { Menu } from 'antd';
+import { headMenuItems, MenuClickEventProp } from '../menuConfig';
 
-const HeadBar:React.FC=()=>{
+const HeadBar:React.FC<MenuClickEventProp> = ({onMenuClick})=>{
   const menuSate = useSelector((state: RootState) => state.menu);
   const collapsed = menuSate.sideCollapsed;
   const dispatch = useDispatch();
@@ -22,6 +24,14 @@ const HeadBar:React.FC=()=>{
         className: style.trigger,
         onClick: () => dispatch(setSideCollapsed(!collapsed)),
       })}
+      <Menu
+        className={style.headMenu}
+        theme="light"
+        mode="horizontal"
+        defaultSelectedKeys={['2']}
+        onClick={onMenuClick}
+        items={headMenuItems}
+      />
     </Header>
   );
 }
