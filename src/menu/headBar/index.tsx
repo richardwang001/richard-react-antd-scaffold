@@ -17,6 +17,7 @@ const HeadBar:React.FC<MenuClickEventProp> = ({onMenuClick})=>{
   const menuSate = useSelector((state: RootState) => state.menu);
   const collapsed = menuSate.sideCollapsed;
   const dispatch = useDispatch();
+  const activeKey = menuSate.activeKey;
 
   return (
     <Header className={style.headerLayout}>
@@ -28,7 +29,7 @@ const HeadBar:React.FC<MenuClickEventProp> = ({onMenuClick})=>{
         className={style.headMenu}
         theme="light"
         mode="horizontal"
-        defaultSelectedKeys={['2']}
+        selectedKeys={[activeKey]}
         onClick={onMenuClick}
         items={headMenuItems}
       />
