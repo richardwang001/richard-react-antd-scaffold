@@ -22,9 +22,13 @@ const CustomMenu:React.FC=()=>{
   const dispatch = useDispatch();
 
   const onMenuClick: MenuProps['onClick'] = ({ key }) => {
-    navigate(key);
-    const findPane = getPaneByKey(key as PagePathEnum);
-    findPane && dispatch(addPane(findPane));
+    if(key===PagePathEnum.LOGOUT){
+      navigate('/login',{replace:true});
+    }else {
+      navigate(key);
+      const findPane = getPaneByKey(key as PagePathEnum);
+      findPane && dispatch(addPane(findPane));
+    }
   };
 
   useEffect(() => {

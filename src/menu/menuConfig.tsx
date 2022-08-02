@@ -9,6 +9,7 @@ import { RadarChartOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined ,
 import { Avatar, MenuProps } from 'antd';
 import question from '../assets/pictures/question_fill_32px.png';
 import about from '../assets/pictures/about_32px.png';
+import Profile from '../pages/profile';
 
 // 1. 配置 menuItem 和 tabBar 标题枚举
 export enum PaneLabelEnum {
@@ -31,6 +32,7 @@ export enum PagePathEnum {
   P22 = '/page2/page2',
   P3 = '/page3',
   P4 = '/page4',
+  LOGIN='/login',
   USER='/user',
   USER_HOME='/user/home',
   LOGOUT='/user/logout',
@@ -99,7 +101,7 @@ export const allHeadPanes: PaneType[] = [
         label: PaneLabelEnum.USER_HOME,
         key: PagePathEnum.USER_HOME,
         icon: <HomeOutlined />,
-        component: <h1>用户主页</h1>,
+        component: <Profile/>,
       },
       {
         label: PaneLabelEnum.LOGOUT,

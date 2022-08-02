@@ -17,6 +17,7 @@ import {
   REGISTER
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { authApi } from '../core/services/auth';
 
 const persistConfig = {
   key: "root",
@@ -33,12 +34,12 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
       }
-    }),
+    }).concat(authApi.middleware),
 });
 
 let persistor = persistStore(store);
 
 export { store, persistor };
 
-export type RootState = ReturnType<typeof store.getState>
-export type DispatchType = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>;
+export type DispatchType = typeof store.dispatch;

@@ -7,11 +7,13 @@ import {
   Route,
 } from 'react-router-dom';
 import { get1DPanes } from './core/utils/panesTools';
+import Login from './pages/auth';
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={<CustomMenu/>}>
           {
             get1DPanes().map(p => <Route path={p.key} element={p.component}/>)
