@@ -46,12 +46,13 @@ const MenuContent: React.FC = () => {
       >
         {
           panes.map(p =>(
-            <TabPane closable={panes.length > 1} tab={p.label} key={p.key} forceRender/>
+            <TabPane closable={panes.length > 1} tab={p.label} key={p.key} forceRender>
+              <Outlet/>
+            </TabPane>
             )
           )
         }
       </Tabs>
-      <Outlet/>
     </Content>
   );
 };

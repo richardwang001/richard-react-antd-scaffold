@@ -2,4 +2,16 @@
   padding: 12px;
   min-height: 280px;
   border: 12px solid #e3e3e3;
+  overflow:hidden;
+  :global{
+    .ant-tabs{
+      height: 100%;
+    }
+    .ant-tabs-content {
+      height: 100%;
+    }
+    .ant-tabs-tabpane {
+      height: 100%;
+    }
+  }
 }

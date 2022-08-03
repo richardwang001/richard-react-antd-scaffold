@@ -9,7 +9,7 @@ import { RadarChartOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined ,
 import { Avatar, MenuProps } from 'antd';
 import question from '../assets/pictures/question_fill_32px.png';
 import about from '../assets/pictures/about_32px.png';
-import Profile from '../pages/profile';
+import Profile from '../pages/profile/profile';
 
 // 1. 配置 menuItem 和 tabBar 标题枚举
 export enum PaneLabelEnum {
