@@ -1,24 +1,32 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../redux/store';
-import { initialAuthState, UserResponseData } from '../../core/models/auth';
+import { createSlice } from '@reduxjs/toolkit';
+import { initialAuthState } from '../../core/models/auth';
+import { authApi } from '../../core/services/auth';
 
 const slice = createSlice({
   name: 'auth',
   initialState: initialAuthState,
   reducers: {
-    setCredentials: (state, { payload: { username, password, token } }: PayloadAction<UserResponseData>) => {
-      if (state.userInfo && state.userInfo) {
-        state.userInfo.username = username;
-        state.userInfo.password = password;
-      }
-      state.token = token;
+    clearToken: (state) => {
+      state.token = '';
     }
   },
-  extraReducers: (builder) => {}
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      authApi.endpoints.login.matchFulfilled,
+      (state, { payload: { data: { token, username, password } } }) => {
+        state.token = token;
+        state.userInfo = {
+          username: username,
+          password: password
+        };
+        console.log('登录成功！！！',token);
+      }
+    );
+  }
 });
 
-export const { setCredentials } = slice.actions;
+// export const { setCredentials } = slice.actions;
 
 export default slice.reducer;
 
-export const authState = (state: RootState) => state.auth;
+export const { clearToken } = slice.actions;

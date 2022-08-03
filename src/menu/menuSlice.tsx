@@ -5,20 +5,20 @@
  */
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-import { PagePathEnum, PaneType } from './menuConfig';
-import { get1DPanes, getDefaultOpenKeys } from '../core/utils/panesTools';
+import { PathEnum, PaneType } from './menuConfig';
+import { getDefaultOpenKeys, getPaneByKey } from '../core/utils/panesTools';
 
 interface MenuState {
   sideCollapsed:boolean,
   panes:PaneType[],
-  activeKey:PagePathEnum,
-  openKeys:PagePathEnum[]|undefined
+  activeKey:PathEnum,
+  openKeys:PathEnum[]|undefined
 }
 
 const initialState: MenuState = {
   sideCollapsed:false,
-  activeKey:PagePathEnum.P1,
-  panes:get1DPanes(),
+  activeKey:PathEnum.P1,
+  panes:[getPaneByKey(PathEnum.P1)!],
   openKeys: getDefaultOpenKeys(),
 }
 
@@ -29,7 +29,7 @@ export const menuSlice = createSlice({
     setSideCollapsed:(state, action: PayloadAction<boolean>) => {
       state.sideCollapsed = action.payload;
     },
-    setActiveKey:(state, action: PayloadAction<PagePathEnum>) =>{
+    setActiveKey:(state, action: PayloadAction<PathEnum>) =>{
       state.activeKey = action.payload;
     },
     setPanes:(state, action: PayloadAction<PaneType[]>)=>{
@@ -39,11 +39,11 @@ export const menuSlice = createSlice({
       const hasSome = state.panes.some(pane => pane.key === action.payload.key);
       if (!hasSome) {state.panes.push(action.payload);}
     },
-    removePane:(state,action: PayloadAction<PagePathEnum>)=>{
+    removePane:(state,action: PayloadAction<PathEnum>)=>{
       const targetKey = action.payload;
       state.panes=state.panes.filter(pane => pane.key !== targetKey);
     },
-    setOpenKeys:(state, action: PayloadAction<PagePathEnum[]>) =>{
+    setOpenKeys:(state, action: PayloadAction<PathEnum[]>) =>{
       state.openKeys = action.payload;
     },
   }

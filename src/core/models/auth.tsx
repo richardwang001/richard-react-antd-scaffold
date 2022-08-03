@@ -3,7 +3,10 @@ export interface UserResponseData {
   password:string,
   token: string;
 }
-
+export interface UserInfo {
+  username: string;
+  password: string;
+}
 export interface UserResponse {
   data: UserResponseData;
   code: number;
@@ -17,13 +20,11 @@ export interface LoginRequest {
 }
 
 export interface AuthState{
-  userInfo?:{
-    username: string;
-    password: string;
-  }
-  token?:string
+  userInfo:UserInfo|null;
+  token:string|null
 }
 
 export const initialAuthState:AuthState={
-  token: undefined, userInfo: undefined
+  userInfo:null,
+  token: null
 }

@@ -1,4 +1,4 @@
-import { allPanes, allSidePanes, PagePathEnum, PaneType } from '../../menu/menuConfig';
+import { allPanes, allSidePanes, PathEnum, PaneType } from '../../menu/menuConfig';
 
 export const get1DPanes = () => {
   let panes: PaneType[]=[];
@@ -13,7 +13,7 @@ export const get1DPanes = () => {
   return panes;
 };
 
-export const getNewActiveKeyAfterRemoving = (panes: PaneType[], targetKey: PagePathEnum, activeKey: PagePathEnum) => {
+export const getNewActiveKeyAfterRemoving = (panes: PaneType[], targetKey: PathEnum, activeKey: PathEnum) => {
   if (targetKey === activeKey) {
     const index = panes.findIndex(p => p.key === targetKey);
     if (index !== -1) {
@@ -25,12 +25,12 @@ export const getNewActiveKeyAfterRemoving = (panes: PaneType[], targetKey: PageP
   } else { return undefined;}
 };
 
-export const getPaneByKey = (key: PagePathEnum): PaneType | undefined => {
+export const getPaneByKey = (key: PathEnum): PaneType | undefined => {
   return get1DPanes().find(p => p.key === key);
 };
 
-export const getDefaultOpenKeys = (): PagePathEnum[] | undefined => {
-  let keys: PagePathEnum[] = [];
+export const getDefaultOpenKeys = (): PathEnum[] | undefined => {
+  let keys: PathEnum[] = [];
   allSidePanes.forEach(p => {
     if (p.children) {
       keys.push(p.key);

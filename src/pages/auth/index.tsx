@@ -1,30 +1,27 @@
 import { Button, Checkbox, Form, Input, message } from 'antd';
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { setCredentials } from './authSlice';
 import { useLoginMutation } from '../../core/services/auth';
 import { useNavigate } from 'react-router-dom';
-import { LoginRequest, UserResponse, UserResponseData } from '../../core/models/auth';
+import { useForm } from 'antd/es/form/Form';
+import { PathEnum } from '../../menu/menuConfig';
 
-const Login:React.FC=()=>{
-  const dispatch = useDispatch();
+const Login: React.FC = () => {
   const navigate = useNavigate();
-  const [login, { isLoading }] = useLoginMutation();
+  const [form] = useForm();
+  const [login, { isLoading }]= useLoginMutation();
 
-  const onFinish = async (values: any) => {
-    const payload:LoginRequest = {
-      password: values.password, username: values.username
-    };
-
+  const onFinish = async (values:any) => {
     try {
-      const result = await login(payload);
-      console.log("result: " , (result as any).data);
-      if ((typeof result as string) ==='{data:UserResponse}') {
-        dispatch(setCredentials((result as any).data.data));
-        navigate("/user/home");
-      }
+      await login({
+        username: values.username,
+        password: values.password
+      }).unwrap()
+      // Being that the result is handled in extraReducers in authSlice,
+      // we know that we're authenticated after this, so the user
+      // and token will be present in the store
+      navigate(PathEnum.USER_HOME);
     } catch (err) {
-      message.error('登录失败，'+err);
+      message.error("登录失败："+err)
     }
   };
 
@@ -41,6 +38,7 @@ const Login:React.FC=()=>{
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
+      form={form}
       style={{
         position: 'absolute',
         width: '428px',
@@ -54,7 +52,7 @@ const Login:React.FC=()=>{
         name="username"
         rules={[{ required: true, message: '请输入用户名!' }]}
       >
-        <Input />
+        <Input/>
       </Form.Item>
 
       <Form.Item
@@ -62,7 +60,7 @@ const Login:React.FC=()=>{
         name="password"
         rules={[{ required: true, message: '请输入密码！' }]}
       >
-        <Input.Password />
+        <Input.Password/>
       </Form.Item>
 
       <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
@@ -76,6 +74,6 @@ const Login:React.FC=()=>{
       </Form.Item>
     </Form>
   );
-}
+};
 
 export default Login;

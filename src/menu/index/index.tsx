@@ -9,30 +9,37 @@ import style from './index.module.scss';
 import SideBar from '../sideBar';
 import HeadBar from '../headBar';
 import MenuContent from '../menuContent';
-import { addPane, setActiveKey } from '../menuSlice';
-import { PagePathEnum } from '../menuConfig';
+import { addPane, setActiveKey, setPanes } from '../menuSlice';
+import { PathEnum } from '../menuConfig';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getPaneByKey } from '../../core/utils/panesTools';
+import { clearToken } from '../../pages/auth/authSlice';
 
-const CustomMenu:React.FC=()=>{
+const CustomMenu: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const path = location.pathname;
+  const path = location.pathname as PathEnum;
   const dispatch = useDispatch();
 
   const onMenuClick: MenuProps['onClick'] = ({ key }) => {
-    if(key===PagePathEnum.LOGOUT){
-      navigate('/login',{replace:true});
-    }else {
+    if (key === PathEnum.LOGOUT) {
+      window.localStorage.clear();
+      dispatch(clearToken());
+      dispatch(setPanes([]));
+      navigate(PathEnum.LOGIN, { replace: true });
+    } else {
       navigate(key);
-      const findPane = getPaneByKey(key as PagePathEnum);
-      findPane && dispatch(addPane(findPane));
     }
   };
 
   useEffect(() => {
-    dispatch(setActiveKey(path as PagePathEnum));
+    if (path === '/' as PathEnum) {
+      return;
+    } else {
+      dispatch(addPane(getPaneByKey(path)!));
+      dispatch(setActiveKey(path));
+    }
   }, [path]);
 
   return (
@@ -44,6 +51,6 @@ const CustomMenu:React.FC=()=>{
       </Layout>
     </Layout>
   );
-}
+};
 
 export default CustomMenu;

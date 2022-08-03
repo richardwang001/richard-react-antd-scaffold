@@ -9,7 +9,7 @@ import { AntDesignOutlined} from '@ant-design/icons';
 import Sider from 'antd/es/layout/Sider';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { sideMenuItems, PagePathEnum, MenuClickEventProp } from '../menuConfig';
+import { sideMenuItems, PathEnum, MenuClickEventProp } from '../menuConfig';
 import style from './index.module.scss';
 import { setOpenKeys } from '../menuSlice';
 
@@ -21,7 +21,7 @@ const SideBar: React.FC<MenuClickEventProp> = ({onMenuClick}) => {
   const openKeys=menuSate.openKeys;
 
   const onOpenChange: MenuProps['onOpenChange'] = keys => {
-    dispatch(setOpenKeys(keys as PagePathEnum[]));
+    dispatch(setOpenKeys(keys as PathEnum[]));
   }
   return (
     <Sider collapsedWidth={50} trigger={null} collapsible collapsed={collapsed}>
