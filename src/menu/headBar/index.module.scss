@@ -11,6 +11,17 @@
 }
 
 .siteLayoutBackground {
+  display: inline-flex;
+  justify-content: space-between;
   padding: 0;
   background: #fff;
+}
+
+.headContent{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width:  100%;
+
 }

@@ -1,9 +1,3 @@
-/**
- *@desc
- *@author Richard Wang
- *@date 2022/7/25 13:31
- */
-
 import { configureStore } from '@reduxjs/toolkit'
 import menuReducer from '../menu/menuSlice'
 

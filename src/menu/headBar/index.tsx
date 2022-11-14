@@ -1,8 +1,3 @@
-/**
- *@desc
- *@author Richard Wang
- *@date 2022/7/25 12:52
- */
 import style from './index.module.scss';
 import { Header } from 'antd/es/layout/layout';
 import React  from 'react';
@@ -12,10 +7,11 @@ import { RootState } from '../../redux/store';
 import { setSideCollapsed } from '../menuSlice';
 import { Button, Menu, Space, Tooltip } from 'antd';
 import { MenuClickEventProp } from '../index';
+import { headItems } from '../menuConfig';
 
 const HeadBar:React.FC<MenuClickEventProp>=({onMenuClick})=>{
   const menuSate = useSelector((state: RootState) => state.menu);
-  const {sideCollapsed,activeKey} = menuSate;
+  const {sideCollapsed,activeMenuKey} = menuSate;
   const dispatch = useDispatch();
 
   return (
@@ -24,13 +20,13 @@ const HeadBar:React.FC<MenuClickEventProp>=({onMenuClick})=>{
         className: style.trigger,
         onClick: () => dispatch(setSideCollapsed(!sideCollapsed)),
       })}
-      <Space align={'baseline'}>
+      <Space>
         <Menu
         theme="light"
         mode="horizontal"
-        selectedKeys={[activeKey]}
+        selectedKeys={[activeMenuKey]}
         onClick={onMenuClick}
-        // items={headMenuItems}
+        items={headItems}
       />
         <Tooltip title="退出登录">
           <Button size={'large'} type={'text'} icon={<LogoutOutlined/>} danger/>
