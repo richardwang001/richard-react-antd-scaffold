@@ -4,20 +4,25 @@ import CustomMenu from './menu';
 import {
   BrowserRouter,
   Routes,
-  Route,
-} from "react-router-dom";
+  Route, Navigate,
+} from 'react-router-dom';
+import { childRouteConfig, RoutePathAsMenuKeyEnum } from './menu/menuConfig';
+import NoFoundPage from './pages/NoFoundPage';
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route>
-          <Route path="/" element={<CustomMenu/>}>
-            <Route path="page1" element={<h1>页面一</h1>} />
-            <Route path="page2" element={<h1>页面二</h1>} />
-            <Route path="*" element={<h1>404</h1>} />
-          </Route>
+        <Route path="/" element={<Navigate to={RoutePathAsMenuKeyEnum.Menu}/>}/>
+        <Route path={RoutePathAsMenuKeyEnum.Login} element={<h1>登录页</h1>}/>
+        <Route path={RoutePathAsMenuKeyEnum.Menu} element={<CustomMenu/>}>
+          {
+            childRouteConfig.map(route => (
+              <Route path={route.path} element={route.element}/>
+            ))
+          }
         </Route>
+        <Route path="*" element={<NoFoundPage/>}/>
       </Routes>
     </BrowserRouter>
   );

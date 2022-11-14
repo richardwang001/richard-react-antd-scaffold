@@ -9,8 +9,9 @@ import { AntDesignOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined } 
 import Sider from 'antd/es/layout/Sider';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import { MenuClickEventProp } from '../index';
 
-const SideBar:React.FC=()=>{
+const SideBar:React.FC<MenuClickEventProp>=({onMenuClick})=>{
   const menuSate = useSelector((state: RootState) => state.menu);
   const collapsed = menuSate.sideCollapsed;
 

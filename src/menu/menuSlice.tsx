@@ -8,9 +8,11 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 
 interface MenuState {
   sideCollapsed:boolean,
+  activeKey:string
 }
 
 const initialState: MenuState = {
+  activeKey: '',
   sideCollapsed:true
 }
 
